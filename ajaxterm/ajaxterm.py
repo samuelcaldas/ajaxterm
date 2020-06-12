@@ -477,8 +477,8 @@ class AjaxTerm:
 		self.files={}
 		for i in ['css','html','js']:
 			for j in glob.glob('*.%s'%i):
-				self.files[j]=file(j).read()
-		self.files['index']=file(index_file).read()
+				self.files[j]=open(j).read()
+		self.files['index']=open(index_file).read()
 		self.mime = mimetypes.types_map.copy()
 		self.mime['.html']= 'text/html; charset=UTF-8'
 		self.multi = Multiplex(cmd)
@@ -534,8 +534,8 @@ def main():
 		if pid == 0:
 			#os.setsid() ?
 			os.setpgrp()
-			nullin = file('/dev/null', 'r')
-			nullout = file('/dev/null', 'w')
+			nullin = open('/dev/null', 'r')
+			nullout = open('/dev/null', 'w')
 			os.dup2(nullin.fileno(), sys.stdin.fileno())
 			os.dup2(nullout.fileno(), sys.stdout.fileno())
 			os.dup2(nullout.fileno(), sys.stderr.fileno())
@@ -546,7 +546,7 @@ def main():
 					os.setuid(pwd.getpwnam(o.uid).pw_uid)
 		else:
 			try:
-				file(o.pidfile,'w+').write(str(pid)+'\n')
+				open(o.pidfile,'w+').write(str(pid)+'\n')
 			except:
 				pass
 			print ('AjaxTerm at http://localhost:{0}/ pid: {1}'.format(o.port,pid))
